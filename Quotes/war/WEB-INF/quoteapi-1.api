@@ -1,13 +1,13 @@
 {
   "extends" : "thirdParty.api",
   "abstract" : false,
-  "root" : "https://myapp.appspot.com/_ah/api",
+  "root" : "https://vivid-env-695.appspot.com/_ah/api",
   "name" : "quoteapi",
   "version" : "1",
   "description" : "API for managing quotes",
   "defaultVersion" : false,
   "adapter" : {
-    "bns" : "https://myapp.appspot.com/_ah/spi",
+    "bns" : "https://vivid-env-695.appspot.com/_ah/spi",
     "deadline" : 65.0,
     "type" : "lily"
   },
@@ -25,11 +25,165 @@
     "maxAge" : 0
   },
   "methods" : {
+    "quoteapi.getQuote" : {
+      "path" : "quote/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.slumdog.quotes.service.QuoteServiceAPI.getQuote",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "quoteapi.add" : {
+      "path" : "addQuote/{id}/{author}/{message}",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.slumdog.quotes.service.QuoteServiceAPI.addQuote",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          },
+          "author" : {
+            "type" : "string",
+            "required" : true
+          },
+          "message" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "quoteapi.update" : {
+      "path" : "quote",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.slumdog.quotes.service.QuoteServiceAPI.updateQuote",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "quoteapi.remove" : {
+      "path" : "quote/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.slumdog.quotes.service.QuoteServiceAPI.removeQuote",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int32",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "quoteapi.list" : {
+      "path" : "quotecollection",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.slumdog.quotes.service.QuoteServiceAPI.getQuotes",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
   },
   "descriptor" : {
     "schemas" : {
+      "Quote" : {
+        "id" : "Quote",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "author" : {
+            "type" : "string"
+          }
+        }
+      },
+      "QuoteCollection" : {
+        "id" : "QuoteCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Quote"
+            }
+          }
+        }
+      }
     },
     "methods" : {
+      "com.slumdog.quotes.service.QuoteServiceAPI.getQuote" : {
+        "response" : {
+          "$ref" : "Quote"
+        }
+      },
+      "com.slumdog.quotes.service.QuoteServiceAPI.addQuote" : {
+        "response" : {
+          "$ref" : "Quote"
+        }
+      },
+      "com.slumdog.quotes.service.QuoteServiceAPI.updateQuote" : {
+        "request" : {
+          "$ref" : "Quote"
+        },
+        "response" : {
+          "$ref" : "Quote"
+        }
+      },
+      "com.slumdog.quotes.service.QuoteServiceAPI.removeQuote" : {
+      },
+      "com.slumdog.quotes.service.QuoteServiceAPI.getQuotes" : {
+        "response" : {
+          "$ref" : "QuoteCollection"
+        }
+      }
     }
   }
 }
